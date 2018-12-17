@@ -1,0 +1,56 @@
+
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter UPC :");
+        String upc = upcCleaner(scanner.nextLine());
+
+
+        int oddPositionsSummed = sumOddPositions(upc);
+        int evenPositionsSummed = sumEvenPositions(upc);
+
+        int result = (oddPositionsSummed + evenPositionsSummed) % 10;
+        int checkDigit;
+        if (result != 0) {
+            checkDigit = 10 - result;
+        } else {
+            checkDigit = 0;
+        }
+        System.out.println("Complete UPC: " + upc + checkDigit);
+
+    }
+
+    public static String upcCleaner(String upc) {
+        if (upc.length() < 11) {
+            int numZeroes = 11 - upc.length();
+            String zeroes = "";
+            for (int i = 0; i < numZeroes; i++) {
+                zeroes = zeroes + "0";
+            }
+            return zeroes + upc;
+        }
+        return upc;
+    }
+
+
+    public static int sumOddPositions(String upc) {
+        int result = 0;
+        for (int i = 0; i < 11; i = i + 2) {
+            int currentInt = (Character.getNumericValue(upc.charAt(i)));
+            result += currentInt;
+        }
+        return result * 3;
+    }
+
+    public static int sumEvenPositions(String upc) {
+        int result = 0;
+        for (int i = 1; i < 11; i = i + 2) {
+            int currentInt = (Character.getNumericValue(upc.charAt(i)));
+            result += currentInt;
+        }
+        return result;
+    }
+}
